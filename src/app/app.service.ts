@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Books } from './books.model';
 import { Libcard } from './Libcard.model';
 import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 
-
+@Injectable()
 
 export class All {
  book: Books[] = [];
