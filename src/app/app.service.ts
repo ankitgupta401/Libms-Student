@@ -3,9 +3,10 @@ import { Books } from './books.model';
 import { Libcard } from './Libcard.model';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
+const URL = environment.BACKEND_URL;
 @Injectable()
-
 export class All {
  book: Books[] = [];
   libCard: Libcard[] = [];
@@ -19,18 +20,18 @@ constructor(private http: HttpClient) {}
 count: number;
 bookcount: number;
 findUserPhoneNo(phoneNo: any) {
-  return this.http.get<{ message: string , user: Libcard[] }>('http://localhost:3000/api/users/get/' + phoneNo );
+  return this.http.get<{ message: string , user: Libcard[] }>(URL + 'users/get/' + phoneNo );
 
 }
 
 findUserEmails(email: string) {
-  return this.http.get<{message: string , user: Libcard[], count: number}>('http://localhost:3000/api/users/Email/' + email);
+  return this.http.get<{message: string , user: Libcard[], count: number}>(URL + 'users/Email/' + email);
 }
 findUserCard(cardNo: string) {
-  return this.http.get<{message: string, user: Libcard[] }>('http://localhost:3000/api/users/Card/' + cardNo);
+  return this.http.get<{message: string, user: Libcard[] }>(URL + 'users/Card/' + cardNo);
 }
 findallbookAcc( accessionNo: number) {
-  this.http.get<{message: string , books: Books[]}>('http://localhost:3000/api/books/all/' + accessionNo)
+  this.http.get<{message: string , books: Books[]}>(URL + 'books/all/' + accessionNo)
   .subscribe((result) => {
     this.book = result.books;
     this.booksUpdated.next({BOOKS: [...this.book], count: result.books.length});
@@ -38,7 +39,7 @@ findallbookAcc( accessionNo: number) {
   }
 findbookTitle(pagesize: number , page: number , title: string) {
   const queryParams = `?pagesize=${pagesize}&page=${page}&title=${title}`;
-  this.http.get<{message: string , books: Books[], count: number}>('http://localhost:3000/api/books/getbytitle' + queryParams)
+  this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbytitle' + queryParams)
   .subscribe((result) => {
     this.book = result.books;
     this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
@@ -47,7 +48,7 @@ findbookTitle(pagesize: number , page: number , title: string) {
 }
 findbookAuthor(pagesize: number , page: number , author: string) {
   const queryParams = `?pagesize=${pagesize}&page=${page}&author=${author}`;
-  this.http.get<{message: string , books: Books[], count: number}>('http://localhost:3000/api/books/getbyauthor' + queryParams)
+  this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbyauthor' + queryParams)
   .subscribe((result) => {
     this.book = result.books;
     this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
@@ -56,7 +57,7 @@ findbookAuthor(pagesize: number , page: number , author: string) {
 }
 getBooks(pagesize: number , page: number) {
   const queryParams = `?pagesize=${pagesize}&page=${page}`;
-  this.http.get<{ message: string, books: Books[] , count: number}>('http://localhost:3000/api/books' + queryParams)
+  this.http.get<{ message: string, books: Books[] , count: number}>(URL + 'books' + queryParams)
   .subscribe((postData) => {
 
     this.book = postData.books;
@@ -86,7 +87,7 @@ addLibCard(LibCard: Libcard , image: File) {
   UserData.append('state', LibCard.state);
   UserData.append('zip', LibCard.zip.toString());
   UserData.append('image', image , LibCard.fname);
-  this.http.post<{message: string}>('http://localhost:3000/api/users', UserData)
+  this.http.post<{message: string}>(URL + 'users', UserData)
   .subscribe((responseData => {
 
     console.log(responseData.message);
@@ -98,7 +99,7 @@ getUsersUpdateListener() {
   return this.usersUpdated.asObservable();
 }
 getlastTeacher() {
-  return this.http.get<{message: string , count: number}>('http://localhost:3000/api/users/getTeacher');
+  return this.http.get<{message: string , count: number}>(URL + 'users/getTeacher');
   }
 
 }

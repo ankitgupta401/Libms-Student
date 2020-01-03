@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { All } from '../app.service';
 import { Libcard } from '../Libcard.model';
 import { Subscription } from 'rxjs';
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-new-lib-card',
@@ -11,7 +12,6 @@ import { Subscription } from 'rxjs';
 })
 export class NewLibCardComponent implements OnInit , OnDestroy {
   // details: any[] = [];
-
   private userSub: Subscription;
   today: Date;
   date: any;
@@ -95,6 +95,7 @@ this.app.findUserEmails(this.details.email)
         this.app.getUsersUpdateListener().subscribe(() => {
     this.isLoading = false;
     this.donesave = true;
+    setTimeout(this.print_Data, 1000 );
       });
        }
      });
@@ -142,6 +143,8 @@ this.app.addLibCard(this.details, this.fileToUpload);
 this.app.getUsersUpdateListener().subscribe(() => {
 this.isLoading = false;
 this.donesave = true;
+setTimeout(this.print_Data, 1000);
+
   });
   });
 }
@@ -156,7 +159,25 @@ this.donesave = true;
 
 
   print_Data() {
+
+let element = document.getElementById('export');
+    // tslint:disable-next-line: prefer-const
+let opt = {
+      margin:       1,
+      filename:     'LibraryCard.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+
+    // New Promise-based usage:
+html2pdf().set(opt).from(element).save();
+
+    // Old monolithic-style usage:
+    // html2pdf(element, opt);
+element = null;
     }
+
 
   printPreview() {
     window.print();

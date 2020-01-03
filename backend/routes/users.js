@@ -2,8 +2,7 @@ const express =require('express');
 const router = express.Router();
 const User = require("../model/users");
 const multer = require('multer');
-const Book = require("../model/book");
-const checkAuth = require("../middleware/check-auth");
+
 
 const MIME_TYPE_MAP = {
   'image/png': 'png',
@@ -27,7 +26,7 @@ const storage = multer.diskStorage({
     if(isValid) {
       error = null;
     }
-    cb(error, "backend/images");
+    cb(error, "images");
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
