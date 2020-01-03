@@ -73,7 +73,11 @@ a:focus{
     color: #7386D5;
     background: #fff;
 }
+.adjust {
+  padding: 76%;
 
+	display: block;
+}
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
