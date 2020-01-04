@@ -42,7 +42,7 @@ handleFileInput(file: FileList) {
  // tslint:disable-next-line: max-line-length
   if ( this.fileToUpload.type === 'image/jpeg' || this.fileToUpload.type === 'image/JPG' || this.fileToUpload.type === 'image/png' || this.fileToUpload.type === 'image/PNG' || this.fileToUpload.type === 'image/JPEG' || this.fileToUpload.type === 'image/JPG') {
   if ( this.fileToUpload.size > 100000) {
-alert('File size Exceeds limit - Min Size-100kB');
+alert('File size Exceeds limit - Max Size-100kB');
 return ;
 }
   this.formvalid = true;
