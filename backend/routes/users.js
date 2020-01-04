@@ -38,10 +38,21 @@ const storage = multer.diskStorage({
 router.get("/getTeacher",(req,res,next) => {
 
 User.countDocuments({category: 'teacher' , deleted: false}).then(count => {
-res.status(200).json({
-message: "teacher fetched successful",
-count: count
-});
+  if( count > 0) {
+    User.find({category: 'teacher' , deleted: false}).skip( count - 1).then(result => {
+      res.status(200).json({
+        message: "got teacher",
+        libcard: result
+      });
+      });
+  } else {
+    res.status(200).json({
+      message: "no Teacher",
+      libcard: null
+    });
+  }
+
+
 });
 });
 

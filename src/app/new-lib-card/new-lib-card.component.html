@@ -254,7 +254,9 @@
             </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-default pmd-ripple-effect" (click)="print_Data()" *ngIf="!isLoading">Download
+              <button type="button" class="btn btn-default pmd-ripple-effect" (click)="print_Data()" >Download
+              </button>
+              <button type="button" onclick="document.getElementById('id02').style.display='none'" class="btn btn-default pmd-ripple-effect"  >Close
               </button>
             </div>
 

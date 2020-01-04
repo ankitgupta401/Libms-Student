@@ -99,7 +99,7 @@ getUsersUpdateListener() {
   return this.usersUpdated.asObservable();
 }
 getlastTeacher() {
-  return this.http.get<{message: string , count: number}>(URL + 'users/getTeacher');
+  return this.http.get<{message: string , libcard: Libcard[]}>(URL + 'users/getTeacher');
   }
 
 }
