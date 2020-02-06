@@ -161,22 +161,22 @@
 
     <div id="id02" class="modal" style= "overflow: scroll;" >
 
-      <form class="modal-content animate" >
+      <form class="modal-content animate" style="width: 85pc;" >
         <div class="imgcontainer" >
           <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
 
         </div>
 
-        <div class="container" >
+        <div class="container" style="width: max-content;" >
     <h3>Print Library Card</h3>
     <div >
     <div class="modal-body" >
         <div class="modal-body" *ngIf="isValid" id="export">
           <mat-spinner *ngIf="isLoading"></mat-spinner>
             <div class="row">
-              <div style="padding-left: 14px;">
+              <div style="padding-left: 14px; padding-right: 14px;">
                 <div class="panel panel-default" style="font-size: 12px;" id="print_Container" *ngIf="!isLoading">
-                  <table id="p_tbl1" class="" style="width: 20pc;float: left;border: 1px solid black; height: 30pc; ">
+                  <table id="p_tbl1" class="" style="width: 22pc;float: left;border: 1px solid black; height: 28pc; ">
                     <tbody>
                     <tr>
                       <td id="p_img_td" rowspan="8" style="width: 186px;border-right: 1px solid lightgrey;">
@@ -219,7 +219,7 @@
                     </tbody>
                   </table>
 
-                  <table id="p_tbl2" class="table table-striped" style=" width: 20pc;float:right;margin-right: 4px;border: 1px solid black; height: 30pc; overflow: scroll;">
+                  <table id="p_tbl2" class="table table-striped" style=" width: 22pc;float:right;margin-right: 4px;border: 1px solid black; height: 28pc; overflow: scroll;">
                     <tbody>
                     <tr>
                       <td class="ng-binding">Email : {{ details?.email }}</td>
