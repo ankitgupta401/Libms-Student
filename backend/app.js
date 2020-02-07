@@ -35,6 +35,6 @@ app.use((req, res, next) => {
 app.use("/api/users" , userRoutes);
 app.use("/api/books" , bookRoutes);
 app.use( (req,res,next) => {
-  res.sendFile(path.join(__dirname, "Libms", "index.html"));
+  res.sendFile(path.join(__dirname, "StudentPannel", "index.html"));
   });
 module.exports = app;

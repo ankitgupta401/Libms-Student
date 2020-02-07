@@ -19,53 +19,61 @@ private toIssuebooksUpdated = new Subject<Books[]>();
 constructor(private http: HttpClient) {}
 count: number;
 bookcount: number;
-findUserPhoneNo(phoneNo: any) {
-  return this.http.get<{ message: string , user: Libcard[] }>(URL + 'users/get/' + phoneNo );
 
-}
-
-findUserEmails(email: string) {
-  return this.http.get<{message: string , user: Libcard[], count: number}>(URL + 'users/Email/' + email);
-}
-findUserCard(cardNo: string) {
-  return this.http.get<{message: string, user: Libcard[] }>(URL + 'users/Card/' + cardNo);
-}
 findallbookAcc( accessionNo: number) {
-  this.http.get<{message: string , books: Books[]}>(URL + 'books/all/' + accessionNo)
+  this.http.get<{message: string , books: Books[], count: number }>(URL + 'books/all/' + accessionNo)
   .subscribe((result) => {
     this.book = result.books;
-    this.booksUpdated.next({BOOKS: [...this.book], count: result.books.length});
+    this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
   });
   }
-findbookTitle(pagesize: number , page: number , title: string) {
-  const queryParams = `?pagesize=${pagesize}&page=${page}&title=${title}`;
-  this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbytitle' + queryParams)
-  .subscribe((result) => {
-    this.book = result.books;
-    this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
 
-  });
-}
-findbookAuthor(pagesize: number , page: number , author: string) {
-  const queryParams = `?pagesize=${pagesize}&page=${page}&author=${author}`;
-  this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbyauthor' + queryParams)
-  .subscribe((result) => {
-    this.book = result.books;
-    this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
+  findbookTitle(pagesize: number , page: number , title: string) {
+    const queryParams = `?pagesize=${pagesize}&page=${page}&title=${title}`;
+    this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbytitle' + queryParams)
+    .subscribe((result) => {
+      console.log(result);
+      this.book = result.books;
+      this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
 
-  });
-}
-getBooks(pagesize: number , page: number) {
-  const queryParams = `?pagesize=${pagesize}&page=${page}`;
-  this.http.get<{ message: string, books: Books[] , count: number}>(URL + 'books' + queryParams)
-  .subscribe((postData) => {
+    });
+  }
+  findbookAuthor(pagesize: number , page: number , author: string) {
+    const queryParams = `?pagesize=${pagesize}&page=${page}&author=${author}`;
+    this.http.get<{message: string , books: Books[], count: number}>(URL + 'books/getbyauthor' + queryParams)
+    .subscribe((result) => {
+      this.book = result.books;
+      this.booksUpdated.next({BOOKS: [...this.book], count: result.count});
 
-    this.book = postData.books;
-    this.bookcount = postData.count;
-    this.booksUpdated.next({BOOKS: [...this.book], count: this.bookcount});
+    });
+  }
 
-  });
-}
+
+  getBooks(pagesize: number , page: number) {
+    const queryParams = `?pagesize=${pagesize}&page=${page}`;
+    this.http.get<{ message: string, books: Books[] , count: {count: number}[]}>(URL + 'books' + queryParams)
+    .subscribe((postData) => {
+      this.book = postData.books;
+      this.bookcount = postData.count[0].count;
+      if (this.bookcount === 0) {
+        this.booksUpdated.next({BOOKS: [], count: 0});
+      } else {
+        this.booksUpdated.next({BOOKS: [...this.book], count: this.bookcount});
+      }
+
+    });
+  }
+  findUserPhoneNo(phoneNo: any) {
+    return this.http.get<{ message: string , user: Libcard[] }>(URL + 'users/get/' + phoneNo );
+
+  }
+
+  findUserEmails(email: string) {
+    return this.http.get<{message: string , user: Libcard[], count: number}>(URL + 'users/Email/' + email);
+  }
+  findUserCard(cardNo: string) {
+    return this.http.get<{message: string, user: Libcard[] }>(URL + 'users/Card/' + cardNo);
+  }
 getBooksUpdateListener() {
   return this.booksUpdated.asObservable();
 }
@@ -101,6 +109,11 @@ getUsersUpdateListener() {
 getlastTeacher() {
   return this.http.get<{message: string , libcard: Libcard[]}>(URL + 'users/getTeacher');
   }
+  getAvailable(isbn: string) {
+    const queryParams = `?isbn=${isbn}`;
 
+    return this.http.get<{message: string, count: {count: number}[]}>(URL + 'books/Available' + queryParams);
+
+  }
 }
 
